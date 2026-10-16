@@ -9,7 +9,7 @@ services:
     depends_on:
       - mongodb
       - rag_api
-    image: registry.librechat.ai/librechat-ai/librechat-dev:latest
+    image: librechat/librechat:v0.8.8-rc4 
     restart: always
     user: "${UID}:${GID}"
     extra_hosts:
@@ -37,9 +37,10 @@ services:
       - ./logs:/app/logs
       - ./skill:/app/skill
       - librechat-data:/app/data
+      #- ./librechat.yaml:/app/librechat.yaml
   admin-panel:
     container_name: admin-panel
-    image: registry.librechat.ai/clickhouse/librechat-admin-panel:latest
+    image: ghcr.io/clickhouse/librechat-admin-panel:fce9596f823e78f991c7ef60bb97d0ce15d72934
     ports:
       - "${ADMIN_PANEL_PORT:-3000}:3000"
     depends_on:
@@ -84,7 +85,7 @@ services:
       - pgdata2:/var/lib/postgresql/data
   rag_api:
     container_name: rag_api
-    image: registry.librechat.ai/librechat-ai/librechat-rag-api-dev-lite:latest
+    image: ghcr.io/danny-avila/librechat-rag-api-dev-lite:c4e5cbf79fcece1df9adfff5dfed983a5990ca9f
     environment:
       - DB_HOST=vectordb
       - RAG_PORT=${RAG_PORT:-8000}
